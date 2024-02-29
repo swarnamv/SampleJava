@@ -1,0 +1,51 @@
+package com.test;
+
+import java.util.Scanner;
+import java.util.Random;
+
+public class SampleTest {
+    private static final String[] NAMES = {"apple","dog","cat","book"};
+    private static final int TOTAL_LIVES = 5;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        String wordToGuess = NAMES[random.nextInt(NAMES.length)];
+        StringBuilder guessedWord = new StringBuilder(wordToGuess.replaceAll(".", "*"));
+        int lives = TOTAL_LIVES;
+
+        System.out.println("Welcome to Guess the Word!");
+        System.out.println("The word to guess has " + wordToGuess.length() + " letters.");
+        System.out.println(guessedWord);
+
+        while (lives > 0) {
+            System.out.print("Guess a letter: ");
+            char guess = scanner.next().toLowerCase().charAt(0);
+
+            boolean found = false;
+            for (int i = 0; i < wordToGuess.length(); i++) {
+                if (wordToGuess.charAt(i) == guess) {
+                    guessedWord.setCharAt(i, guess);
+                    found = true;
+                }
+            }
+
+            if (found) {
+                System.out.println("Correct guess!");
+                System.out.println(guessedWord);
+                if (guessedWord.indexOf("*") == -1) {
+                    System.out.println("Congratulations You've guessed the word: " + wordToGuess);
+                    return;
+                }
+            } else {
+                lives--;
+                System.out.println("Incorrect guess. You have " + lives + " lives left.");
+                if (lives == 0) {
+                    System.out.println("Sorry, you have run out of lives. The word was: " + wordToGuess);
+                    return;
+                }
+            }
+        }
+    }
+}
